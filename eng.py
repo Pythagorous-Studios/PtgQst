@@ -1,12 +1,12 @@
-import logger
+import logger.logger as logger
 
 """logging"""
 def log(msg,lvl=0):
     """wraper for the logger library"""
     if log==True:
-        print(logger.log(msg,lvl,__name__))
+        print(logger.inlog(msg=msg,lvl=lvl,src=__name__))
     else:
-        logger.log(msg,lvl)
+        logger.inlog(msg=msg,lvl=lvl,src=__name__)
 
 """error class"""
 class InvalidCoords(BaseException):
