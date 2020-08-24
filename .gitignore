@@ -1,4 +1,6 @@
 /dev
+/logger
 /__pycache__
 .pyc
 .txt
+test.py

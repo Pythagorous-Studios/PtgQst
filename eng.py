@@ -1,5 +1,6 @@
 import logger.logger as logger
 
+
 """logging"""
 def log(msg,lvl=0):
     """wraper for the logger library"""
@@ -10,6 +11,8 @@ def log(msg,lvl=0):
 
 """error class"""
 class InvalidCoords(BaseException):
+    pass
+class FailedToAddManager(BaseException):
     pass
 
 """classes"""
@@ -27,7 +30,12 @@ class board():
         
     def addpiece(self,pce): 
         if isinstance(pce,piece): 
-            self.pieces.append(pce)
+            if pce.addManager(self) == True:
+                 self.pieces.append(pce)
+                 log("Added piece: "+str(pce)+" to pieces on Board: "+str(self))
+            else:
+                raise FailedToAddManager
+           
 
         return isinstance(pce,piece) 
         
@@ -60,12 +68,19 @@ class tile():
 
     
 class piece(): 
-    def __init__(self,name,x,y,management_engine): 
+    def __init__(self,name,x,y): 
+        mgeng=None
         self.name=name 
         self.x=x 
         self.y=y 
-        self.mgeng=management_engine 
-
+        self.mgeng=mgeng
+    
+    def addManager(self,MgEng):
+        if isinstance(MgEng,board):
+            self.mgeng=MgEng
+            return True
+        else:
+            return False
     def goto(self,x,y): 
         if self.mgeng.coords_exist(x,y): 
             self.x=x 
