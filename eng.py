@@ -1,5 +1,6 @@
 import logger.logger as logger
 
+
 """logging"""
 def log(msg,lvl=0):
     """wraper for the logger library"""
@@ -31,6 +32,7 @@ class board():
         if isinstance(pce,piece): 
             if pce.addManager(self) == True:
                  self.pieces.append(pce)
+                 log("Added piece: "+str(pce)+" to pieces on Board: "+str(self))
             else:
                 raise FailedToAddManager
            
