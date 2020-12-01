@@ -89,3 +89,30 @@ class piece():
             log('no such coord: '+str((x,y))+' in mg. eng. : '+str(self.mgeng))
     def look(self):
         return self.mgeng.gattr(self.x,self.y,"descrip")
+
+class item():
+	def __init__(self,name,descrip=None):
+		holder=None #container is more logical but to avoid conflicts its holder
+		self.name=name
+		self.descrip=descrip
+		self.holder=holder
+	def setHolder(self,newholder):
+		#TODO:flesh out/more security
+		if isinstance(newholder, container):
+			self.holder=newholder
+
+class container():
+	def __init__(self,name,descrip=None):
+		inventory=None
+		self.name=name
+		self.descrip=descrip
+		self.inventory=inventory
+	def TransferItem(self,item,newcontainer):
+		#Verifies existence of new container, iniate RecieveItem for recipient, and finally removes item from self upon confirmation by recipient
+		if isinstance(newcontainer,container):
+			pass
+	def RecieveItem(self,item,src):
+		#Reciever of items from TransferItem,must confirm reception of item before finalization.
+		#TODO: Add default security/auth for item reception.
+		if isinstance(src,container):
+			pass
