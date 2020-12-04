@@ -110,9 +110,18 @@ class container():
 	def TransferItem(self,item,newcontainer):
 		#Verifies existence of new container, iniate RecieveItem for recipient, and finally removes item from self upon confirmation by recipient
 		if isinstance(newcontainer,container):
-			pass
+			if newcontainer.RecieveItem(item,self):
+				inventory.remove(item)
+			else:
+				pass
 	def RecieveItem(self,item,src):
 		#Reciever of items from TransferItem,must confirm reception of item before finalization.
 		#TODO: Add default security/auth for item reception.
 		if isinstance(src,container):
-			pass
+			try:
+				inventory.append(item)
+				item.setHolder(self)
+				return True
+			except:
+				return False
+			
