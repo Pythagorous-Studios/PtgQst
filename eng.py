@@ -90,9 +90,9 @@ class piece():
     def look(self):
         return self.mgeng.gattr(self.x,self.y,"descrip")
 
-class item():
+class Item():
 	def __init__(self,name,descrip=None):
-		holder=None #container is more logical but to avoid conflicts its holder
+		holder=None#container is more logical but to avoid conflicts its holder
 		self.name=name
 		self.descrip=descrip
 		self.holder=holder
@@ -101,7 +101,7 @@ class item():
 		if isinstance(newholder, container):
 			self.holder=newholder
 
-class container():
+class Container():
 	def __init__(self,name,descrip=None):
 		inventory=None
 		self.name=name
@@ -125,3 +125,14 @@ class container():
 			except:
 				return False
 			
+	def _InitItem(self,item):
+		#Only to be used for initial setup!
+		#Similair in functionality as Recieve item,but explicitly and only for the initial population of a container by a board/manager.
+		if isinstance(item, Item):
+			try:
+				inventory.append(item)
+				item.setHolder(self)
+				return True
+			except:
+				return False
+				#for added security,if strict was enabled raise error for unauthorized item moving: possible cheating
