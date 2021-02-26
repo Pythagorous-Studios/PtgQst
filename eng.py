@@ -2,12 +2,21 @@ import logger.logger as logger
 
 
 """logging"""
+
+#logging setup
+logger.register(__name__)
+displogs=True #Disable to stop debug messages
+
 def log(msg,lvl=0):
-    """wraper for the logger library"""
-    if log==True:
-        print(logger.inlog(msg=msg,lvl=lvl,src=__name__))
-    else:
-        logger.inlog(msg=msg,lvl=lvl,src=__name__)
+	"""wraper for the logger library"""
+	logger.inlog(msg=msg,lvl=lvl,src=__name__)
+	if displogs==True:
+		print(logger.outlog(__name__))
+	else:
+		pass
+
+
+log("hello")
 
 """error class"""
 class InvalidCoords(BaseException):
@@ -32,7 +41,7 @@ class board():
         if isinstance(pce,piece): 
             if pce.addManager(self) == True:
                  self.pieces.append(pce)
-                 log("Added piece: "+str(pce)+" to pieces on Board: "+str(self))
+                 log("ORIGIN: "+str(self)+" (name: "+str(self.name)+" in method: addpiece,MSG: added piece: "+str(pce)+" (name: "+str(pce.name)+")")
             else:
                 raise FailedToAddManager
            
@@ -86,11 +95,11 @@ class piece():
             self.x=x 
             self.y=y
         else:
-            log('no such coord: '+str((x,y))+' in mg. eng. : '+str(self.mgeng))
+            log("no such coord: "+str((x,y))+" in mg. eng. : "+str(self.mgeng))
     def look(self):
         return self.mgeng.gattr(self.x,self.y,"descrip")
 
-class Item():
+class item():
 	def __init__(self,name,descrip=None):
 		holder=None#container is more logical but to avoid conflicts its holder
 		self.name=name
@@ -101,37 +110,42 @@ class Item():
 		if isinstance(newholder, container):
 			self.holder=newholder
 
-class Container():
+class container():
 	def __init__(self,name,descrip=None):
-		inventory=None
+		inventory=[]
 		self.name=name
 		self.descrip=descrip
 		self.inventory=inventory
-	def TransferItem(self,item,newcontainer):
+	def TransferItem(self,itm,newcontainer):
 		#Verifies existence of new container, iniate RecieveItem for recipient, and finally removes item from self upon confirmation by recipient
 		if isinstance(newcontainer,container):
-			if newcontainer.RecieveItem(item,self):
-				inventory.remove(item)
+			log("ORIGIN: "+str(self)+" (name: "+str(self.name)+") in method: TransferItem, MSG: "+"Target: "+str(newcontainer)+" (name: "+str(newcontainer.name)+") is an instance of container")
+			if newcontainer.RecieveItem(itm,self):
+				self.inventory.remove(itm)
+				log("ORIGIN: "+str(self)+" (name: "+str(self.name)+") in method: TransferItem, MSG: Validated and transfered item: "+str(itm)+" (name: "+str(itm.name)+") to container: "+str(newcontainer)+" (name: "+str(newcontainer.name)+")")
 			else:
 				pass
-	def RecieveItem(self,item,src):
+	def RecieveItem(self,itm,src):
 		#Reciever of items from TransferItem,must confirm reception of item before finalization.
 		#TODO: Add default security/auth for item reception.
 		if isinstance(src,container):
+			log("ORIGIN: "+str(self)+" (name: "+str(self.name)+") in method: RecieveItem, MSG: "+"src: "+str(src)+" (name: "+str(src.name)+") is an instance of container")
 			try:
-				inventory.append(item)
-				item.setHolder(self)
+				self.inventory.append(itm)
+				itm.setHolder(self)
+				log("ORIGIN: "+str(self)+" (name: "+str(self.name)+") in method: RecieveItem,MSG: Recieved item: "+str(itm)+" (name: "+str(itm.name)+")")
 				return True
 			except:
 				return False
 			
-	def _InitItem(self,item):
+	def _InitItem(self,itm):
 		#Only to be used for initial setup!
 		#Similair in functionality as Recieve item,but explicitly and only for the initial population of a container by a board/manager.
-		if isinstance(item, Item):
+		if isinstance(itm, item):
 			try:
-				inventory.append(item)
-				item.setHolder(self)
+				self.inventory.append(itm)
+				itm.setHolder(self)
+				og("ORIGIN: "+str(self)+" (name: "+str(self.name)+") in method: _InitItem, MSG: Initiated item: "+str(itm)+" (name: "+str(itm.name)+")")
 				return True
 			except:
 				return False
