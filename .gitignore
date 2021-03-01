@@ -1,7 +1,7 @@
 /dev
-/logger
 /__pycache__
 .pyc
 .txt
 .replit
 test.py
+devdoc.txt
