@@ -1,17 +1,16 @@
-import logger.logger as logger
-
+from PtgQst.logger import logger
 
 """logging"""
 
 #logging setup
-logger.register(__name__)
+logger.register("eng") #I'm an actual idiot
 displogs=True #Disable to stop debug messages
 
 def log(msg,lvl=0):
 	"""wraper for the logger library"""
-	logger.inlog(msg=msg,lvl=lvl,src=__name__)
+	logger.inlog(msg=msg,lvl=lvl,src="eng")
 	if displogs==True:
-		print(logger.outlog(__name__))
+		print(logger.outlog("eng"))
 	else:
 		pass
 
