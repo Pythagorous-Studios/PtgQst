@@ -4,7 +4,7 @@ from PtgQst.logger import logger
 
 #logging setup
 logger.register("eng") #I'm an actual idiot
-displogs=True #Disable to stop debug messages
+displogs=False #Enable/Disable to start/stop debug messages
 
 def log(msg,lvl=0):
 	"""wraper for the logger library"""
