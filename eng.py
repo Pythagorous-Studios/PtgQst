@@ -93,8 +93,10 @@ class piece():
         if self.mgeng.coords_exist(x,y): 
             self.x=x 
             self.y=y
+	    return True
         else:
             log("no such coord: "+str((x,y))+" in mg. eng. : "+str(self.mgeng))
+	    return False
     def look(self):
         return self.mgeng.gattr(self.x,self.y,"descrip")
 
