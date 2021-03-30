@@ -43,7 +43,6 @@ class board():
                  log("ORIGIN: "+str(self)+" (name: "+str(self.name)+" in method: addpiece,MSG: added piece: "+str(pce)+" (name: "+str(pce.name)+")")
             else:
                 raise FailedToAddManager
-           
 
         return isinstance(pce,piece) 
         
