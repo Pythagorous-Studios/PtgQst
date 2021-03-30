@@ -92,7 +92,7 @@ class piece():
 		if self.mgeng.coords_exist(x,y): 
 			self.x=x 
 			self.y=y
-		return True
+			return True
 		else:
 			log("no such coord: "+str((x,y))+" in mg. eng. : "+str(self.mgeng))
 		return False
