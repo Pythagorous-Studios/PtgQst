@@ -1,7 +1,7 @@
 from PtgQst.logger import logger
 
 """logging"""
-
+ 
 #logging setup
 logger.register("eng") #I'm an actual idiot
 displogs=False #Enable/Disable to start/stop debug messages
@@ -19,85 +19,85 @@ log("hello")
 
 """error class"""
 class InvalidCoords(BaseException):
-    pass
+	pass
 class FailedToAddManager(BaseException):
-    pass
+	pass
 
 """classes"""
 class board(): 
-    def __init__(self,name): 
-        tiles=[] 
-        pieces=[]
-        self.name=name
-        self.tiles=tiles
-        self.pieces=pieces
-    def addtile(self,til): 
-        if isinstance(til,tile): 
-            self.pieces.append(til) 
-        return isinstance(til,tile) 
-        
-    def addpiece(self,pce): 
-        if isinstance(pce,piece): 
-            if pce.addManager(self) == True:
-                 self.pieces.append(pce)
-                 log("ORIGIN: "+str(self)+" (name: "+str(self.name)+" in method: addpiece,MSG: added piece: "+str(pce)+" (name: "+str(pce.name)+")")
-            else:
-                raise FailedToAddManager
+	def __init__(self,name): 
+		tiles=[] 
+		pieces=[]
+		self.name=name
+		self.tiles=tiles
+		self.pieces=pieces
+	def addtile(self,til): 
+		if isinstance(til,tile): 
+			self.pieces.append(til) 
+		return isinstance(til,tile) 
+		
+	def addpiece(self,pce): 
+		if isinstance(pce,piece): 
+			if pce.addManager(self) == True:
+				 self.pieces.append(pce)
+				 log("ORIGIN: "+str(self)+" (name: "+str(self.name)+" in method: addpiece,MSG: added piece: "+str(pce)+" (name: "+str(pce.name)+")")
+			else:
+				raise FailedToAddManager
 
-        return isinstance(pce,piece) 
-        
-    def coords_exist(self,x,y): 
-        for piece in self.pieces: 
-            if (x,y) == (piece.x,piece.y): 
-                return True
-        return False 
-         
-    def gattr(self,ix,iy,attr):
-        for piece in self.pieces:
-            #log((place),(place.x),(place.y))
-            if (ix,iy)==(piece.x,piece.y):
-                try:
-                    if attr=="descrip":
-                        log(piece.descrip)
-                        return piece.descrip
-                except:
-                    pass
-                 
+		return isinstance(pce,piece) 
+		
+	def coords_exist(self,x,y): 
+		for piece in self.pieces: 
+			if (x,y) == (piece.x,piece.y): 
+				return True
+		return False 
+		 
+	def gattr(self,ix,iy,attr):
+		for piece in self.pieces:
+			#log((place),(place.x),(place.y))
+			if (ix,iy)==(piece.x,piece.y):
+				try:
+					if attr=="descrip":
+						log(piece.descrip)
+						return piece.descrip
+				except:
+					pass
+				 
 class tile(): 
-    def __init__(self,name,x,y,descrip=None): 
-        self.name=name 
-        self.y=y 
-        self.x=x 
-        self.y=y 
-        self.descrip=descrip 
+	def __init__(self,name,x,y,descrip=None): 
+		self.name=name 
+		self.y=y 
+		self.x=x 
+		self.y=y 
+		self.descrip=descrip 
 
-        
+		
 
-    
+	
 class piece(): 
-    def __init__(self,name,x,y): 
-        mgeng=None
-        self.name=name 
-        self.x=x 
-        self.y=y 
-        self.mgeng=mgeng
-    
-    def addManager(self,MgEng):
-        if isinstance(MgEng,board):
-            self.mgeng=MgEng
-            return True
-        else:
-            return False
-    def goto(self,x,y): 
-        if self.mgeng.coords_exist(x,y): 
-            self.x=x 
-            self.y=y
-	    return True
-        else:
-            log("no such coord: "+str((x,y))+" in mg. eng. : "+str(self.mgeng))
-	    return False
-    def look(self):
-        return self.mgeng.gattr(self.x,self.y,"descrip")
+	def __init__(self,name,x,y): 
+		mgeng=None
+		self.name=name 
+		self.x=x 
+		self.y=y 
+		self.mgeng=mgeng
+	
+	def addManager(self,MgEng):
+		if isinstance(MgEng,board):
+			self.mgeng=MgEng
+			return True
+		else:
+			return False
+	def goto(self,x,y): 
+		if self.mgeng.coords_exist(x,y): 
+			self.x=x 
+			self.y=y
+		return True
+		else:
+			log("no such coord: "+str((x,y))+" in mg. eng. : "+str(self.mgeng))
+		return False
+	def look(self):
+		return self.mgeng.gattr(self.x,self.y,"descrip")
 
 class item():
 	def __init__(self,name,descrip=None):
