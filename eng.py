@@ -1,4 +1,4 @@
-from PtgQst.logger import logger
+import logger.logger as logger
 
 """logging"""
  
