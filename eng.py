@@ -36,11 +36,17 @@ class board():
 			self.pieces.append(til) 
 		return isinstance(til,tile) 
 		
-	def addpiece(self,pce): 
-		if isinstance(pce,piece): 
+	def addpiece(self,pce):
+		if type(pce) == type("<type 'list'>"):
+			for pice in pce:
+				if isinstance(pce,piece):
+					_addpce(pice)
+		elif isinstance(pce,piece): 
+			_addpce(pce)
+		def _addpce(pce):
 			if pce.addManager(self) == True:
-				 self.pieces.append(pce)
-				 log("ORIGIN: "+str(self)+" (name: "+str(self.name)+" in method: addpiece,MSG: added piece: "+str(pce)+" (name: "+str(pce.name)+")")
+				self.pieces.append(pce)
+				log("ORIGIN: "+str(self)+" (name: "+str(self.name)+" in method: addpiece,MSG: added piece: "+str(pce)+" (name: "+str(pce.name)+")")
 			else:
 				raise FailedToAddManager
 
